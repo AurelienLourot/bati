@@ -17,22 +17,30 @@ const root = __dirname;
 startServer();
 
 async function startServer() {
+  console.log("LA_TEMP express-entry.ts startServer()");
   const app = express();
+  console.log("LA_TEMP 10");
 
   if (isProduction) {
+    console.log("LA_TEMP 20");
     app.use(express.static(`${root}/dist/client`));
+    console.log("LA_TEMP 30");
   } else {
+    console.log("LA_TEMP 40");
     // Instantiate Vite's development server and integrate its middleware to our server.
     // ⚠️ We should instantiate it *only* in development. (It isn't needed in production
     // and would unnecessarily bloat our server in production.)
     const vite = await import("vite");
+    console.log("LA_TEMP 50");
     const viteDevMiddleware = (
       await vite.createServer({
         root,
         server: { middlewareMode: true },
       })
     ).middlewares;
+    console.log("LA_TEMP 60");
     app.use(viteDevMiddleware);
+    console.log("LA_TEMP 70");
   }
 
   if (BATI.has("authjs")) {
@@ -73,6 +81,7 @@ async function startServer() {
       }),
     );
   }
+  console.log("LA_TEMP 80");
 
   if (BATI.has("trpc")) {
     /**
@@ -121,6 +130,7 @@ async function startServer() {
       ),
     );
   }
+  console.log("LA_TEMP 90");
 
   /**
    * Vike route
@@ -136,6 +146,7 @@ async function startServer() {
     res.status(statusCode).type(contentType);
     pageContext.httpResponse.pipe(res);
   });
+  console.log("LA_TEMP 100");
 
   app.listen(process.env.PORT ? parseInt(process.env.PORT) : 3000, () => {
     console.log("Server listening on http://localhost:3000");
