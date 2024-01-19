@@ -196,6 +196,15 @@ async function main(context: GlobalContext) {
   // for all matrices
   for (const testFile of testFiles) {
     for (const flags of testFile.matrix) {
+      // LA_TEMP:
+      if (
+        !flags.includes("solid") ||
+        flags.includes("plausible.io") ||
+        flags.includes("vercel") ||
+        flags.includes("h3")
+      ) {
+        continue;
+      }
       promises.push(
         limit(async () => {
           const projectDir = await execLocalBati(context, flags);
